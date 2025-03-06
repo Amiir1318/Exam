@@ -4,11 +4,11 @@ class Exam():
         self.con = sqlite3.connect(adress)
         self.cur = self.con.cursor()
     def create_table(self):
-        self.cur.execute("create table if not exists student (id primary key,fname text,lname text,dname text,pas text)")
+        self.cur.execute("create table if not exists student (id integer primary key,fname text,lname text,dname text,pas text)")
         self.con.commit()
     def update_all(self):
         lst = []
-        self.cur.execute("select * from person")
+        self.cur.execute("select * from student")
         resualt = self.cur.fetchall()
         for i in resualt:
             lst.append(f"{i[0]}-{i[1]} {i[2]}-Dar dore {i[3]} Sabt Shode")
@@ -20,9 +20,9 @@ class Exam():
         self.cur.execute("select pas from student")
         s = self.cur.fetchall()
         for password in s:
-            if pas == password:
+            if pas == password[0]:
                 return True
         return False
     def delete(self,id):
-        self.cur.execute("delete * from student where id = ?",(id,))
+        self.cur.execute("delete from student where id = ?",(id,))
         self.con.commit()
